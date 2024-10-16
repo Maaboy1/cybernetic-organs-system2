@@ -3,7 +3,7 @@ import lombok.Data;
 
 @Data
 class Organ {
-    private String id;  // New property
+    private String id;
     private String name;
     private String bloodType;
     private int weight;
