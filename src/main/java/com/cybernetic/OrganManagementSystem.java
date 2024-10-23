@@ -1,11 +1,6 @@
 package com.cybernetic;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+//
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrganManagementSystem {
@@ -18,26 +13,34 @@ public class OrganManagementSystem {
     }
 
     public Set<String> getUniqueBloodTypes() {
-        //TODO: Implement this method
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> bloodTypes = new HashSet<>();
+        bloodTypes.addAll(organs.stream().map(Organ::getBloodType).collect(Collectors.toSet()));
+        bloodTypes.addAll(patients.stream().map(Patient::getBloodType).collect(Collectors.toSet()));
+        return bloodTypes;
     }
 
     public Map<String, List<Patient>> groupPatientsByBloodType() {
-        //TODO: Implement this method
-        throw new UnsupportedOperationException("Not implemented yet");
+        return patients.stream()
+                .collect(Collectors.groupingBy(Patient::getBloodType));
     }
 
     public List<Organ> sortOrgansByWeight() {
-        //TODO: Implement this method
-        throw new UnsupportedOperationException("Not implemented yet");
+        return organs.stream()
+                .sorted(Comparator.comparingInt(Organ::getWeight))
+                .collect(Collectors.toList());
     }
 
     public List<Organ> getTopCompatibleOrgans(Patient patient, int n) {
-        //TODO: Implement this method
-        throw new UnsupportedOperationException("Not implemented yet");
+        return organs.stream()
+                .sorted((o1, o2) -> Double.compare(
+                        calculateCompatibilityScore(o2, patient),
+                        calculateCompatibilityScore(o1, patient)))
+                .limit(n)
+                .collect(Collectors.toList());
     }
 
-
-
-
+    private double calculateCompatibilityScore(Organ organ, Patient patient) {
+        OrganCompatibilityAnalyzer analyzer = new OrganCompatibilityAnalyzer();
+        return analyzer.calculateCompatibilityScore(organ, patient);
+    }
 }
