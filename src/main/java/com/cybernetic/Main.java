@@ -1,6 +1,5 @@
 package com.cybernetic;
 
-
 public class Main {
     public static void main(String[] args) {
 
@@ -21,10 +20,9 @@ public class Main {
         // Print waiting list
         waitingList.printWaitingList();
 
-
         // Add medical events to the patients
-        String[] events = {"Annual checkup","Flu vaccination","Broken arm surgery"};
-        System.out.println("\nAdding medical event to Alice's history: ");
+        String[] events = {"Annual checkup", "Flu vaccination", "Broken arm surgery"};
+        System.out.println("\nAdding medical event to Alice's history:");
         for (String event : events) {
             System.out.println("- " + event);
             aliceBrown.addMedicalEvent(event);
@@ -34,11 +32,10 @@ public class Main {
         System.out.println("\nViewing Alice's latest medical event: " + aliceBrown.getHistory().viewLatestEvent());
         System.out.println("Removing Alice's latest medical event: " + aliceBrown.removeMostRecentEvent());
 
-
-
         // Create an organ
         Organ cyberHeart = new Organ("O001", "CyberHeart-X1", "A+", 350, "HLA-A");
 
+        // Process the next patient in the waiting list
         Patient nextPatient = waitingList.removeNextPatient();
         System.out.println("\nProcessing the next patient for CyberHeart-X1 transplant:");
         System.out.println("Matched CyberHeart-X1 to " + nextPatient.getName());
@@ -48,7 +45,7 @@ public class Main {
             System.out.println("- " + nextPatient.getHistory().removeMostRecentEvent());
         }
 
-        System.out.println("\n" + nextPatient.getName() + " is compatible with "+cyberHeart.getName()+"!\n");
+        System.out.println("\n" + nextPatient.getName() + " is compatible with " + cyberHeart.getName() + "!\n");
 
         waitingList.printWaitingList();
     }

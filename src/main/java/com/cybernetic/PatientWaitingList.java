@@ -5,12 +5,17 @@ import java.util.Queue;
 
 public class PatientWaitingList {
     private Queue<Patient> waitingList;
+
+    public PatientWaitingList() {
+        this.waitingList = new LinkedList<>();
+    }
+
     /**
      * Add a new patient to the end of the waiting list.
      * @param patient The patient to be added to the waiting list.
      */
     public void addPatient(Patient patient) {
-        throw new UnsupportedOperationException("Method not implemented");
+        waitingList.add(patient);
     }
 
     /**
@@ -18,7 +23,7 @@ public class PatientWaitingList {
      * @return The next patient in the waiting list.
      */
     public Patient removeNextPatient() {
-        throw new UnsupportedOperationException("Method not implemented");
+        return waitingList.poll();
     }
 
     /**
@@ -26,15 +31,21 @@ public class PatientWaitingList {
      * @return True if the waiting list is empty, false otherwise.
      */
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Method not implemented");
-
+        return waitingList.isEmpty();
     }
 
     /**
      * Print the current state of the patient waiting list.
      */
     public void printWaitingList() {
-        throw new UnsupportedOperationException("Method not implemented");
+        if (waitingList.isEmpty()) {
+            System.out.println("The waiting list is empty.");
+        } else {
+            System.out.println("Current Waiting Queue:");
+            int position = 1;
+            for (Patient patient : waitingList) {
+                System.out.println(position++ + ". [ " + patient.getName() + " ]");
+            }
+        }
     }
-
 }
