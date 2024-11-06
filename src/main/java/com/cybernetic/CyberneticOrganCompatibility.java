@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-// Main compatibility checker class
 public class CyberneticOrganCompatibility {
     private List<String> incompatibilityReasons;
 
@@ -12,18 +11,30 @@ public class CyberneticOrganCompatibility {
         this.incompatibilityReasons = new ArrayList<>();
     }
 
-    public boolean isCompatible(Patient patient,
-                                CyberneticOrgan organ,
-                                DiagnosticDecisionTree diagnosticTree) {
-
+    public boolean isCompatible(Patient patient, CyberneticOrgan organ, DiagnosticDecisionTree diagnosticTree) {
         incompatibilityReasons.clear();
         boolean isCompatible = true;
 
-        //TODO:  Step 1: Get patient measurements and organ requirements
+        Map<String, Double> patientMeasurements = patient.getAllMeasurements();
+        Map<String, CyberneticOrgan.Range> organRequirements = organ.getRequirements();
 
-        //TODO: Step 2: Run diagnostic tree analysis
+        String diagnosis = diagnosticTree.diagnosePatient(patientMeasurements);
+        if ("Not Compatible".equals(diagnosis)) {
+            isCompatible = false;
+            incompatibilityReasons.add("Diagnostic Tree Result: Not Compatible");
+        }
 
-        //TODO: Step 3: Check each measurement against organ requirements
+        for (Map.Entry<String, CyberneticOrgan.Range> requirement : organRequirements.entrySet()) {
+            String measurementType = requirement.getKey();
+            double measurementValue = patientMeasurements.getOrDefault(measurementType, Double.NaN);
+            CyberneticOrgan.Range range = requirement.getValue();
+
+            if (measurementValue < range.min || measurementValue > range.max) {
+                isCompatible = false;
+                incompatibilityReasons.add(measurementType + " out of range: " + measurementValue +
+                        " (required: " + range.min + " - " + range.max + ")");
+            }
+        }
 
         return isCompatible;
     }
